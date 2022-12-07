@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ChatGPTAPI } from 'chatgpt'
+import { ChatGPTAPI } from './chatgpt/index'
 import dotenv from 'dotenv-safe'
 dotenv.config()
 
@@ -13,12 +13,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const api = new ChatGPTAPI({
     sessionToken: process.env.SESSION_TOKEN || ''
   })
-  console.log('success')
+  console.log('success new ChatGPTAPI')
 
   await api.ensureAuth()
+  console.log('success ensureAuth')
+
+  // 获取 post 或 get 请求的参数
+  const { msg } = req.body || req.query
+  console.log('success', msg)
 
   // send a message and wait for the response
-  const response = await api.sendMessage('Write a python version of bubble sort.')
+  const response = await api.sendMessage(msg, {
+    timeoutMs: 30 * 1000
+  })
+  console.log('success sendMessage')
 
   res.status(200).json({ answer: response })
 }
