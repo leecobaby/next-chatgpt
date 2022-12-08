@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ChatGPTAPI } from './chatgpt/index'
+import { ChatGPTAPI } from 'chatgpt'
 import dotenv from 'dotenv-safe'
 dotenv.config()
 
